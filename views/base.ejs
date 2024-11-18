@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--- 공통된 요소 -->
+    <nav>
+        <a href="/">홈</a>
+        <a href="/write">글 작성</a>
+    </nav>
+    <!--- 바뀌는 요소 -->
+    <%- body %> <!-- 여기에 각 페이지에서 렌더링될 콘텐츠가 삽입됩니다. -->
+    
+    <footer>
+        <p>Footer</p>
+    </footer>
+</body>
+</html>

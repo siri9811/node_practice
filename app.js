@@ -1,17 +1,59 @@
-const express = require('express')
+const express = require('express');
 const app = express()
 const port = 3000
-
+const mongoose = require('mongoose');
 app.set('view engine', 'ejs');
 app.use(express.json())
 // get -> 콜백함수 실행
-app.get('/', (req, res) => {
-    res.render('index', {searchResult: null});
+
+//몽구스 세팅
+const Schema = mongoose.Schema;
+
+const WritingSchema = new Schema ({
+    title: String,
+    content: String,
+    date: {
+        type: Date,
+        default: Date.now
+    }
 });
 
-app.get('/seongjin',(req,res) => {
-    res.send('승진이 A+')
+const Writing = mongoose.model('Writing', WritingSchema);
+
+//몽구스 connect
+mongoose
+    .connect('mongodb://localhost:27017/')
+    .then(() => console.log('MongoDB connected...'))
+    .catch(err => console.log(err));
+
+
+/*app.get('/', (req, res) => {
+    res.render('index', {searchResult: null});
+});*/
+
+app.get('/write', (req, res) => {
+    res.render('write.ejs');
+});
+
+app.post('/write', async (req, res) => {
+    const title = req.body.title;
+    const content = req.body.content;
+
+    //db에 저장
+    const newWriting = new Writing({
+        title: String,
+        contents: String,
+    })
+    const result = await Writing.save().then(() => {
+        console.log('Success');
+        res.render('detail', { title: title, content: content });
+    }) .catch((err) =>{
+        console.log(err);
+        res.render('write')
+    })
 })
+
+
 
 /*app.get('/sound/:name' ,(req,res) => {
     const {name} = req.params
